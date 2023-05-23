@@ -9,8 +9,7 @@ npm start
 - UI is built from small units like buttons, text, and images. React lets you combine them into reusable, nestable components. 
 - From web sites to phone apps, everything on the screen can be broken down into components. 
 
-### Imperative vs Declearive UI
-- React: A declarative UI library
+### React: A declarative UI library
 - As a developer, you can tell React what you want to happen to the user interface, and React will figure out the steps of how to update the DOM on your behalf.
 
 ## Getting Started with React
@@ -281,7 +280,66 @@ const nextArtists = [
 setArtists(nextArtists);
 ```
 
+### Declarative vs Imperative UI:
+- In React, you don’t directly manipulate the UI—meaning you don’t enable, disable, show, or hide components directly. 
+- Intead, you declare what you want to show, and React figures out how to update the UI. 
+- Think of getting into a taxi and telling the driver where you want to go instead of telling them exactly where to turn. It’s the driver’s job to get you there, and they might even know some shortcuts you haven’t considered!
 
+#### Thinking about UI declaratively 
+1. Identify your component’s different visual states
+2. Determine what triggers those state changes
+   - Human inputs, like clicking a button, typing in a field, navigating a link.
+   - Computer inputs, like a network response arriving, a timeout completing, an image loading
+<img>
+3. Represent the state in memory using useState
+4. Remove any non-essential state variables
+5. Connect the event handlers to set the state
 
+#### State Structure:
+#### Principles for structuring state 
+1. Group related state. If you always update two or more state variables at the same time, consider merging them into a single state variable.
+2. Avoid contradictions in state. When the state is structured in a way that several pieces of state may contradict and “disagree” with each other, you leave room for mistakes. Try to avoid this.
+3. Avoid redundant state. If you can calculate some information from the component’s props or its existing state variables during rendering, you should not put that information into that component’s state.
+4. Avoid duplication in state. When the same data is duplicated between multiple state variables, or within nested objects, it is difficult to keep them in sync. Reduce duplication when you can.
+5. Avoid deeply nested state. Deeply hierarchical state is not very convenient to update. When possible, prefer to structure state in a flat way.
 
+#### Sharing State between components:
+- When you want to coordinate two components, move their state to their common parent.
+- Then pass the information down through props from their common parent.
+- Finally, pass the event handlers down so that the children can change the parent’s state.
+- It’s useful to consider components as “controlled” (driven by props) or “uncontrolled” (driven by state).
 
+### What are Controlled and uncontrolled components ???
+
+#### Preserving and Resetting State
+- State is isolated between components. React keeps track of which state belongs to which component based on their place in the UI tree. 
+- You can control when to preserve state and when to reset it between re-renders.
+
+- React keeps state for as long as the same component is rendered at the same position.
+- State is not kept in JSX tags. It’s associated with the tree position in which you put that JSX.
+- You can force a subtree to reset its state by giving it a different key.
+- Don’t nest component definitions, or you’ll reset state by accident.
+
+#### Extracting State Logic into a Reducer
+- Components with many state updates spread across many event handlers can get overwhelming. 
+- For these cases, you can consolidate all the state update logic outside your component in a single function, called a reducer.
+
+Reducers are a different way to handle state. You can migrate from useState to useReducer in three steps:
+1. Move from setting state to dispatching actions.
+2. Write a reducer function.
+3. Use the reducer from your component.
+
+Ex: https://codesandbox.io/s/s6uocy?file=%2FApp.js&utm_medium=sandpack
+
+Tips:
+- Reducers must be pure
+- Each action describes a single user interaction, even if that leads to multiple changes in the data
+
+### Passing Data Deeply with Context
+- Context lets the parent component make some information available to any component in the tree below it—no matter how deep—without passing it explicitly through props.
+- But passing props can become verbose and inconvenient when you need to pass some prop deeply through the tree, or if many components need the same prop.
+
+You will do it in three steps:
+1. Create a context. (You can call it LevelContext, since it’s for the heading level.)
+2. Use that context from the component that needs the data. (Heading will use LevelContext.)
+3. Provide that context from the component that specifies the data. (Section will provide LevelContext.)
