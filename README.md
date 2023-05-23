@@ -22,6 +22,12 @@ To use React in your project, you can load two React scripts from an external we
 - The nice thing about JSX is that apart from following three JSX rules, you don’t need to learn any new symbols or syntax outside of HTML and JavaScript.
 - NOTE : browsers don’t understand JSX out of the box, so they need a JavaScript compiler, such as a Babel, to transform your JSX code into regular JavaScript.
 
+<table>
+	<tr>
+		<td><img src="/.images/imperative1.png" height=300/></td>
+		<td><img src="/.images/imperative2.png" height=300/></td>
+	</tr>
+</table>
 ## The Rules of JSX 
 1. Return a single root element 
 2. Close all the tags 
