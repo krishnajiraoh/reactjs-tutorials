@@ -14,9 +14,9 @@ npm start
 - As a developer, you can tell React what you want to happen to the user interface, and React will figure out the steps of how to update the DOM on your behalf.
 
 ## Getting Started with React
-- To use React in your project, you can load two React scripts from an external website called unpkg.com:
-    1. react is the core React library.
-    2. react-dom provides DOM-specific methods that enable you to use React with the DOM.
+To use React in your project, you can load two React scripts from an external website called unpkg.com:
+1. 'react' is the core React library.
+2. 'react-dom' provides DOM-specific methods that enable you to use React with the DOM.
 
 ## JSX
 - JSX is a syntax extension for JavaScript that allows you to describe your UI in a familiar HTML-like syntax. 
@@ -65,7 +65,7 @@ ReactDOM.render(<Header/>,app);
 |Named|export function Button() {}|import { Button } from './Button.js';|
 
 ```
-export functionProfile(){
+export function Profile(){
   // ...
 }
 ```
@@ -159,3 +159,129 @@ return(
 - Have names that start with handle, followed by the name of the event.
   - e.stopPropagation() stops the event handlers attached to the tags above from firing.
   - e.preventDefault() prevents the default browser behavior for the few events that have it.
+
+## State
+- component-specific memory 
+- To update a component with new data, two things need to happen:
+  1. Retain the data between renders.
+  2. Trigger React to render the component with new data (re-rendering).
+- The useState Hook provides those two things:
+  1. A state variable to retain the data between renders.
+  2. A state setter function to update the variable and trigger React to render the component 
+
+### useState:
+- In React, useState, as well as any other function starting with ”use”, is called a Hook.
+- Hooks are special functions that are only available while React is rendering
+- Every time your component renders, useState gives you an array containing two values:
+  1. The state variable (index) with the value you stored.
+  2. The state setter function (setIndex) which can update the state variable and trigger React to render the component again.
+
+#### State is isolated and private 
+- State is local to a component instance on the screen. In other words, if you render the same component twice, each copy will have completely isolated state!
+- Any screen update in a React app happens in three steps:
+  1. Trigger
+  2. Render
+  3. Commit
+- You can use Strict Mode to find mistakes in your components
+- React does not touch the DOM if the rendering result is the same as last time
+
+#### Batch updates
+- if you would like to update the same state variable multiple times before the next render, instead of passing the next state value like setNumber(number + 1), 
+  - you can pass a function that calculates the next state based on the previous one in the queue, like setNumber(n => n + 1). 
+- It is a way to tell React to “do something with the state value” instead of just replacing it.
+
+```
+//Increments by 6
+<buttonon Click={ () => {
+  setNumber(number+ 5);
+  setNumber(n=>n+ 1);
+}} >
+```
+
+### Updating Objects in State:
+- you shouldn’t change objects that you hold in the React state directly. Instead, when you want to update an object, you need to create a new one (or make a copy of an existing one), and then set the state to use that copy
+- <b>treat any JavaScript object that you put into state as read-only</b>.
+
+```
+onPointerMove = {e => {
+  position.x = e.clientX;
+  position.y = e.clientY;
+}}
+```
+- You can use the ... object spread syntax so that you don’t need to copy every property separately.
+```
+setPerson({
+  ...person, // Copy the old fields
+  firstName : e.target.value // But override this one
+});
+```
+
+- Updating a nested Object:
+```
+setPerson({
+  ...person,            // Copy other fields
+  artwork : {           // but replace the artwork
+    ...person.artwork, // with the same one
+    city:'New Delhi'   // but in New Delhi!
+  }
+});
+```
+
+#### Write concise update logic with Immer :
+- Immer is a popular library that lets you write using the convenient but mutating syntax and takes care of producing the copies for you. 
+- With Immer, the code you write looks like you are “breaking the rules” and mutating an object:
+
+```
+import { useImmer } from 'use-immer';
+
+updatePerson(draft=>{
+  draft.artwork.city= 'Lagos';
+});
+```
+
+### Updating Arrays in State
+- Just like with objects, when you want to update an array stored in state, you need to create a new one (or make a copy of an existing one), and then set state to use the new array.
+
+|-----|avoid (mutates the array)|prefer (returns a new array)|
+|-----|:---------------------   | --------------------------:|
+|adding|push, unshift|concat, [...arr] spread syntax|
+|removing|pop, shift, splice|filter, slice|
+|replacing|splice, arr[i] = ... assignment|map|
+|sorting|reverse, sort|copy the array first|
+
+##### Add
+```
+setArtists([
+  {id:nextId++,name:name},
+  ...artists// Put old items at the end
+]);
+```
+
+##### Remove:
+```
+setArtists(
+  artists.filter(a=>a.id!== artist.id)
+);
+```
+
+##### Transform/replace
+- Using map function
+
+##### Insert
+```
+//Copy & slice
+const nextArtists = [
+    // Items before the insertion point:
+    ...artists.slice(0, insertAt),
+    // New item:
+    { id: nextId++, name: name },
+    // Items after the insertion point:
+    ...artists.slice(insertAt)
+];
+setArtists(nextArtists);
+```
+
+
+
+
+
