@@ -290,7 +290,11 @@ setArtists(nextArtists);
 2. Determine what triggers those state changes
    - Human inputs, like clicking a button, typing in a field, navigating a link.
    - Computer inputs, like a network response arriving, a timeout completing, an image loading
-<img>
+
+<p align="center"> 
+	<img src="/.images/thinking-state.png" height=300/>
+</p>
+
 3. Represent the state in memory using useState
 4. Remove any non-essential state variables
 5. Connect the event handlers to set the state
