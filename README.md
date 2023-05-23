@@ -22,12 +22,29 @@ To use React in your project, you can load two React scripts from an external we
 - The nice thing about JSX is that apart from following three JSX rules, you don’t need to learn any new symbols or syntax outside of HTML and JavaScript.
 - NOTE : browsers don’t understand JSX out of the box, so they need a JavaScript compiler, such as a Babel, to transform your JSX code into regular JavaScript.
 
+### JSX: Putting markup into JavaScript 
+- The Web has been built on HTML, CSS, and JavaScript. 
+- For many years, web developers kept content in HTML, design in CSS, and logic in JavaScript—often in separate files! 
+- Content was marked up inside HTML while the page’s logic lived separately in JavaScript.
+
 <table>
 	<tr>
 		<td><img src="/.images/imperative1.png" height=300/></td>
 		<td><img src="/.images/imperative2.png" height=300/></td>
 	</tr>
 </table>
+
+- But as the Web became more interactive, logic increasingly determined content. 
+- JavaScript was in charge of the HTML! This is why in React, rendering logic and markup live together in the same place—components.
+
+<table>
+	<tr>
+		<td><img src="/.images/declarative1.png" height=300/></td>
+		<td><img src="/.images/declarative2.png" height=300/></td>
+	</tr>
+</table>
+
+
 ## The Rules of JSX 
 1. Return a single root element 
 2. Close all the tags 
